@@ -1,6 +1,7 @@
 
 
 #include "MazeExplorer.h"
+#include "MapBlocks.h"
 
 #include <SFML/Window.hpp>
 #include <SFML/OpenGL.hpp>
@@ -68,16 +69,16 @@ void GameLoop(){
         // what happens when you change their arguments?
         // does their order change the result?
 
-        glTranslated(0.0, 0.0, 0.0);
-        glRotated(0, 1.0, 0.0, 0.0);
-        glRotated(0, 0.0, 1.0, 0.0);
-        glRotated(rot, 0.0, 0.0, 1.0);
+//        glTranslated(0.0, 0.0, 0.0);
+//        glRotated(0, 1.0, 0.0, 0.0);
+//        glRotated(0, 0.0, 1.0, 0.0);
+//        glRotated(rot, 0.0, 0.0, 1.0);
 
-        glScaled(1.0, 2.0, 3.0);
+//        glScaled(1.0, 2.0, 3.0);
 
-        draw_cube(2.0);
+//        draw_cube(2.0);
 
-        glPopMatrix();
+//        glPopMatrix();
 
         // end the current frame (internally swaps the front and back buffers)
         window.display();
