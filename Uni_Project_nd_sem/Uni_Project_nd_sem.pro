@@ -4,11 +4,13 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        Hero.cpp \
         MapBlocks.cpp \
         MazeExplorer.cpp \
         main.cpp
 
 HEADERS += \
+    Hero.h \
     MapBlocks.h \
     MazeExplorer.h
 
