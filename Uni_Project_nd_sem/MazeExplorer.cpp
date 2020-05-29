@@ -26,6 +26,60 @@ void SetupLights(){
     glEnable(GL_NORMALIZE) ;
 }
 
-void GameLoop(){
 
+
+void GameLoop(){
+    sf::Window window(sf::VideoMode(1024, 768), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
+    window.setVerticalSyncEnabled(true);
+
+    // activate the window
+    window.setActive(true);
+
+    bool running = true;
+
+    sf::Clock clk;
+
+    while (running) {
+        // handle events
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                // end the program
+                running = false;
+            } else if (event.type == sf::Event::Resized) {
+                // adjust the viewport when the window is resized
+                //set_viewport(event.size.width, event.size.height);
+            }
+        }
+
+        // clear the buffers
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glColorMaterial (GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE) ;
+        glEnable (GL_COLOR_MATERIAL);
+
+        // draw stuff
+
+        glPushMatrix();
+
+        float rot = clk.getElapsedTime().asSeconds() * 90;
+
+        // TODO
+        // test functions below (glTranslated, glRotated, glColor3d)
+        // what happens when you change their arguments?
+        // does their order change the result?
+
+        glTranslated(0.0, 0.0, 0.0);
+        glRotated(0, 1.0, 0.0, 0.0);
+        glRotated(0, 0.0, 1.0, 0.0);
+        glRotated(rot, 0.0, 0.0, 1.0);
+
+        glScaled(1.0, 2.0, 3.0);
+
+        draw_cube(2.0);
+
+        glPopMatrix();
+
+        // end the current frame (internally swaps the front and back buffers)
+        window.display();
+    }
 }
