@@ -3,4 +3,6 @@
 
 void GameLoop();
 
+void SetupLights();
+
 #endif // MAZEEXPLORER_H
