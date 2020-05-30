@@ -27,18 +27,37 @@ void SetupLights(){
     glEnable(GL_NORMALIZE) ;
 }
 
+void SetView(int width, int height){
+    const float ar = (float)width / (float)height;
+
+        glViewport(0, 0, width, height);
+
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
+        gluLookAt(20.0, 20.0, 2.0, // Camera pos
+                  -10.0, -10.0, 1.0, // Camera target
+                  0.0, 0.0, 1.0); // Axis translation
+}
 
 
 void GameLoop(){
     sf::Window window(sf::VideoMode(1024, 768), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
     window.setVerticalSyncEnabled(true);
+    Floor floor_;
 
     // activate the window
     window.setActive(true);
 
+    SetView(window.getSize().x, window.getSize().y);
+
+    SetupLights();
+
     bool running = true;
 
     sf::Clock clk;
+
+
 
     while (running) {
         // handle events
@@ -49,7 +68,7 @@ void GameLoop(){
                 running = false;
             } else if (event.type == sf::Event::Resized) {
                 // adjust the viewport when the window is resized
-                //set_viewport(event.size.width, event.size.height);
+                SetView(event.size.width, event.size.height);
             }
         }
 
@@ -59,8 +78,8 @@ void GameLoop(){
         glEnable (GL_COLOR_MATERIAL);
 
         // draw stuff
-
         glPushMatrix();
+
 
         float rot = clk.getElapsedTime().asSeconds() * 90;
 
@@ -69,18 +88,12 @@ void GameLoop(){
         // what happens when you change their arguments?
         // does their order change the result?
 
-//        glTranslated(0.0, 0.0, 0.0);
-//        glRotated(0, 1.0, 0.0, 0.0);
-//        glRotated(0, 0.0, 1.0, 0.0);
-//        glRotated(rot, 0.0, 0.0, 1.0);
+        floor_.Draw();
 
-//        glScaled(1.0, 2.0, 3.0);
-
-//        draw_cube(2.0);
-
-//        glPopMatrix();
+        glPopMatrix();
 
         // end the current frame (internally swaps the front and back buffers)
         window.display();
     }
 }
+
