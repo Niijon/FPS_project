@@ -7,116 +7,162 @@
 #include <SFML/OpenGL.hpp>
 #include <GL/glu.h>
 
-void Floor::Draw(double size){
-    double half_cube_size = size / 2.0;
+void Floor::Draw(){
+    double half_cube_size = 1.0 / 2.0;
+    glPushMatrix();
 
-        // bottom
-        glBegin(GL_POLYGON);
+    glTranslated(-15.0,-15.0,-0.0);
+    glScaled(Length_,Width_,Height_);
+
+    // bottom
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // top
-        glColor3d(1.0, 0.0, 0.0);
-        glBegin(GL_POLYGON);
+    // top
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // left
-        glColor3d(0.0, 1.0, 0.0);
-        glBegin(GL_POLYGON);
+    // left
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // right
-        glColor3d(0.0, 0.0, 1.0);
-        glBegin(GL_POLYGON);
+    // right
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // front
-        glColor3d(1.0, 1.0, 0.0);
-        glBegin(GL_POLYGON);
+    // front
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // back
-        glColor3d(0.0, 1.0, 1.0);
-        glBegin(GL_POLYGON);
+    // back
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
+    glPopMatrix();
 }
 
-void Wall::Draw(double size){
-    double half_cube_size = size / 2.0;
-
-        // bottom
-        glBegin(GL_POLYGON);
+void Wall::Draw(){
+    double half_cube_size = 10.0 / 2.0;
+    glPushMatrix();
+    // bottom
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // top
-        glColor3d(1.0, 0.0, 0.0);
-        glBegin(GL_POLYGON);
+    // top
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // left
-        glColor3d(0.0, 1.0, 0.0);
-        glBegin(GL_POLYGON);
+    // left
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // right
-        glColor3d(0.0, 0.0, 1.0);
-        glBegin(GL_POLYGON);
+    // right
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // front
-        glColor3d(1.0, 1.0, 0.0);
-        glBegin(GL_POLYGON);
+    // front
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, -half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
 
-        // back
-        glColor3d(0.0, 1.0, 1.0);
-        glBegin(GL_POLYGON);
+    // back
+    glColor3d(0.0, 1.0, 0.0);
+    glBegin(GL_POLYGON);
+    {
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
-        glEnd();
+    }
+    glEnd();
+    glPopMatrix();
+}
+
+Floor::Floor(){
+    Width_ = 100.0f;
+    Height_ = 1.0f;
+    Length_ = 100.0f;
+}
+
+bool Floor::CollisionDetection(){}
+
+Wall::Wall(){}
+
+bool Wall::CollisionDetection(){}
+
+void CreateMap(Floor floor_){
+    floor_.Draw();
 }
