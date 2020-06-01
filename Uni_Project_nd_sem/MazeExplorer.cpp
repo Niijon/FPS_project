@@ -35,9 +35,9 @@ void SetView(int width, int height){
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         glFrustum(-ar, ar, -1.0, 1.0, 2.0, 100.0);
-        gluLookAt(20.0, 20.0, 2.0, // Camera pos
-                  -10.0, -10.0, 1.0, // Camera target
-                  0.0, 0.0, 1.0); // Axis translation
+        gluLookAt(10.0, 1.0, 10.0, // Camera pos
+                  0.0, 0.0, 0.0, // Camera target
+                  0.0, 1.0, 0.0); // Up camera translation
 }
 
 
@@ -81,7 +81,7 @@ void GameLoop(){
         glPushMatrix();
 
 
-        float rot = clk.getElapsedTime().asSeconds() * 90;
+        float deltaT_ = clk.getElapsedTime().asSeconds() * 90;
 
         // TODO
         // test functions below (glTranslated, glRotated, glColor3d)
