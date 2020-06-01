@@ -4,12 +4,14 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        CameraComponent.cpp \
         Hero.cpp \
         MapBlocks.cpp \
         MazeExplorer.cpp \
         main.cpp
 
 HEADERS += \
+    CameraComponent.h \
     Hero.h \
     MapBlocks.h \
     MazeExplorer.h
