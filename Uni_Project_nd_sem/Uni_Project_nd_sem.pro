@@ -26,5 +26,7 @@ CONFIG(debug, debug|release){
 
 LIBS += -lOpenGL32 -lglu32
 
+
+
 INCLUDEPATH += "N:/SFML-2.5.1/include"
 DEPENDPATH += "N:/SFML-2.5.1/include"
