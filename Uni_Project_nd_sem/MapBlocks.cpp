@@ -11,7 +11,7 @@ void Floor::Draw(){
     double half_cube_size = 1.0 / 2.0;
     glPushMatrix();
 
-    glTranslated(50.0,0.0,50.0);
+    glTranslated(0.0,-1.0,0.0);
     glScaled(Length_,Height_,Width_);
     // bottom
     glBegin(GL_POLYGON);
