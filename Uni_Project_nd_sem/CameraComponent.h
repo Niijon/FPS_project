@@ -11,8 +11,6 @@ private:
     float CameraSpeed;
     float Yaw;
     float Pitch;
-    float devx;
-    float devy;
 
 public:
     Camera();
@@ -22,7 +20,7 @@ public:
     void StrafeLeft(float);
     void MoveForward(float);
     void MoveBackwards(float);
-    void RotateCam(vec3d,float);
+    void RotateCam(float,float/*,float,float*/);
     void UpdateCam();
 
 };
