@@ -15,7 +15,7 @@ struct vec2d{
 vec3d MultiplyByConstant(vec3d,float);
 
 
-void GameLoop();
+void GameLoop(int size);
 void SetupLights();
 void SetView();
 
