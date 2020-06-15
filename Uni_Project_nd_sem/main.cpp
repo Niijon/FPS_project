@@ -6,7 +6,9 @@ using namespace std;
 
 int main()
 {
-    GameLoop();
+    int s;
+    std::cin >> s;
+    GameLoop(s);
     cout << "Hello World!" << endl;
     return 0;
 }
