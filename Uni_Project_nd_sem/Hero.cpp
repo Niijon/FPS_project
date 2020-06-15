@@ -1,3 +1,1 @@
-
-
 #include "Hero.h"
