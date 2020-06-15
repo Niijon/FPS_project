@@ -1,22 +1,14 @@
-
+#include <iostream>
 
 #include "MazeExplorer.h"
 #include "MapBlocks.h"
 #include "CameraComponent.h"
+#include <Maze.h>
 
 #include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <GL/glu.h>
-
-vec3d MultiplyByConstant(vec3d toMultiply,float multiplier){
-    toMultiply.x *= multiplier;
-    toMultiply.y *= multiplier;
-    toMultiply.z *= multiplier;
-    return toMultiply;
-}
-float MultiplyVectors(const vec3d &v1, const vec3d &v2){
-    return v1.x * v2.x + v1.y + v2.y + v1.z * v2.z;
-}
 
 
 void SetupLights(){
@@ -51,14 +43,31 @@ void SetView(int width, int height){
 
 
 
-void GameLoop(){
-    sf::Window window(sf::VideoMode(16*100, 9*100), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
+void GameLoop(int _size){
+    Maze maze = Maze(_size);
+    maze.generateMaze();
+/*
+    sf::Window window(sf::VideoMode(16*80, 9*80), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
     window.setVerticalSyncEnabled(true);
     Floor floor_;
     Camera Cam;
+    sf::Vector2i CenterPoint = sf::Vector2i(window.getSize().x/2, window.getSize().y/2);
+
+    sf::Mouse Mouse;
+    Mouse.setPosition(CenterPoint,window);
+
+
+
+//    maze.convertMaze();
+
+    sf::Cursor _Cursor;
+
     //Cam.SetView();
     // activate the window
     window.setActive(true);
+    window.setMouseCursorGrabbed(true);
+    window.setMouseCursorVisible(false);
+
 
     SetView(window.getSize().x, window.getSize().y);
     Cam.SetView();
@@ -66,6 +75,8 @@ void GameLoop(){
     SetupLights();
 
     bool running = true;
+
+    sf::Vector2i PreviousMousePos = Mouse.getPosition(window);
 
     sf::Clock clk;
 
@@ -94,6 +105,21 @@ void GameLoop(){
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
                 Cam.MoveBackwards(deltaT_);
             }
+
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
+                running = false;
+            }
+
+            if(event.type == sf::Event::MouseMoved) {
+                sf::Vector2i MousePos = sf::Vector2i(Mouse.getPosition(window).x - PreviousMousePos.x, Mouse.getPosition(window).y - PreviousMousePos.y);
+                Cam.RotateCam(MousePos.x, MousePos.y);
+                PreviousMousePos = Mouse.getPosition(window);
+                if(Mouse.getPosition(window).x == (int)window.getSize().x-1){ Mouse.setPosition(CenterPoint,window); PreviousMousePos = Mouse.getPosition(window);}
+                else if(Mouse.getPosition(window).y == (int)window.getSize().y-1) {Mouse.setPosition(CenterPoint,window); PreviousMousePos = Mouse.getPosition(window);}
+                else if(Mouse.getPosition(window).y == 0) {Mouse.setPosition(CenterPoint,window); PreviousMousePos = Mouse.getPosition(window);}
+                else if(Mouse.getPosition(window).x == 0) {Mouse.setPosition(CenterPoint,window); PreviousMousePos = Mouse.getPosition(window);}
+            }
+
         }
 
 
@@ -106,8 +132,6 @@ void GameLoop(){
         // draw stuff
         glPushMatrix();
 
-
-
         // TODO
         // test functions below (glTranslated, glRotated, glColor3d)
         // what happens when you change their arguments?
@@ -117,9 +141,12 @@ void GameLoop(){
 
         glPopMatrix();
 
+
+
         // end the current frame (internally swaps the front and back buffers)
         window.display();
     }
+    */
 }
 
 
