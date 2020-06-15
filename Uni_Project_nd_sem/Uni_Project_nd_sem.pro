@@ -7,6 +7,7 @@ SOURCES += \
         CameraComponent.cpp \
         Hero.cpp \
         MapBlocks.cpp \
+        Maze.cpp \
         MazeExplorer.cpp \
         main.cpp
 
@@ -14,6 +15,7 @@ HEADERS += \
     CameraComponent.h \
     Hero.h \
     MapBlocks.h \
+    Maze.h \
     MazeExplorer.h
 
 LIBS += -L"N:/SFML-2.5.1/lib"
