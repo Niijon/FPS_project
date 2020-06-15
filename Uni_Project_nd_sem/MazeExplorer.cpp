@@ -46,7 +46,7 @@ void SetView(int width, int height){
 void GameLoop(int _size){
     Maze maze = Maze(_size);
     maze.generateMaze();
-/*
+
     sf::Window window(sf::VideoMode(16*80, 9*80), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
     window.setVerticalSyncEnabled(true);
     Floor floor_;
@@ -146,7 +146,7 @@ void GameLoop(int _size){
         // end the current frame (internally swaps the front and back buffers)
         window.display();
     }
-    */
+
 }
 
 
