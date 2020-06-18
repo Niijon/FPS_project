@@ -45,12 +45,19 @@ void SetView(int width, int height){
 
 void GameLoop(int _size){
     Maze maze = Maze(_size);
-    maze.generateMaze();
+    std::vector<Wall> wallsV;
+    wallsV = maze.generateMaze();
+    Vec2d start = maze.getStartPos();
+    Vec2d end = maze.getGoalPos();
 
     sf::Window window(sf::VideoMode(16*80, 9*80), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
     window.setVerticalSyncEnabled(true);
-    Floor floor_;
+    Floor floor_(_size);
     Camera Cam;
+    vec2d v;
+    v.x = start.x;
+    v.z = start.y;
+    Cam.SetCamPos(v);
     sf::Vector2i CenterPoint = sf::Vector2i(window.getSize().x/2, window.getSize().y/2);
 
     sf::Mouse Mouse;
@@ -77,6 +84,7 @@ void GameLoop(int _size){
     bool running = true;
 
     sf::Vector2i PreviousMousePos = Mouse.getPosition(window);
+
 
     sf::Clock clk;
 
@@ -138,6 +146,9 @@ void GameLoop(int _size){
         // does their order change the result?
 
         floor_.Draw();
+        for(auto &el:wallsV){
+            el.Draw();
+        }
 
         glPopMatrix();
 
