@@ -59,9 +59,8 @@ void GameLoop(int _size){
         std::cout << std::endl;
     }
 
-
-
     Vec2d start = maze.getStartPos();
+    std::cout << start.x << " " << start.y << std::endl;
     Vec2d end = maze.getGoalPos();
 
 //    for(auto &el:wallsV)
@@ -72,8 +71,8 @@ void GameLoop(int _size){
     Floor floor_(_size);
     Camera Cam;
     vec2d v;
-    v.x = start.y;
-    v.z = start.x;
+    v.x = start.y+0.5;
+    v.z = start.x+0.5;
     Cam.SetCamPos(v);
     sf::Vector2i CenterPoint = sf::Vector2i(window.getSize().x/2, window.getSize().y/2);
 
@@ -123,14 +122,7 @@ void GameLoop(int _size){
                 Cam.StrafeLeft(deltaT_);
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-                bool CanMove=true;
-                for(auto &el:wallsV){
-                    if(!Cam.CanMoveRight(el.getGlobalBounds()))
-                        CanMove = false;
-                }
-                if(CanMove){
-                    Cam.StrafeRight(deltaT_);
-                }
+                Cam.StrafeRight(deltaT_);
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
                 Cam.MoveForward(deltaT_);
@@ -155,7 +147,7 @@ void GameLoop(int _size){
 
         }
 
-
+        Cam.CanMove(CellsV);
         Cam.UpdateCam();
         // clear the buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
