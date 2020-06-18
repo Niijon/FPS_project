@@ -1,5 +1,8 @@
 #pragma once
 #include <vector>
+
+#include "MapBlocks.h"
+
 struct Cell{
     bool visited;
     bool upw;
@@ -31,6 +34,8 @@ class Maze {
 
  public:
   Maze(int size);
-  void generateMaze();
+  std::vector<Wall> generateMaze();
   void convertMaze();
+  Vec2d getStartPos();
+  Vec2d getGoalPos();
 };
