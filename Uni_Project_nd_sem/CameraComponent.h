@@ -22,6 +22,7 @@ public:
     void MoveBackwards(float);
     void RotateCam(float,float/*,float,float*/);
     void UpdateCam();
+    void SetCamPos(vec2d);
 
 };
 
