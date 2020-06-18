@@ -9,10 +9,9 @@
 
 void Floor::Draw(){
     double half_cube_size = 1.0 / 2.0;
-    int size = 101;
     glPushMatrix();
 
-    glTranslated(-(0.0 - size/2),-1.0, -(0.0 - size/2));
+    glTranslated(-(0.0 - (size/2-0.5)),-1.0, -(0.0 - (size/2-0.5)));
     glScaled(Length_,Height_,Width_);
     // bottom
     glBegin(GL_POLYGON);
@@ -160,13 +159,13 @@ Floor::Floor(){
     Length_ = 100.0f;
 }
 
-Floor::Floor(double size){
-    Width_ = size*2;
-    Length_ = size*2;
+Floor::Floor(double _size){
+    Width_ = _size;
+    Length_ = _size;
     Height_ = 1.0f;
+    size = _size;
 }
 
-bool Floor::CollisionDetection(){}
 
 
 Wall::Wall(){
@@ -186,8 +185,9 @@ Wall::Wall(float _posX, float _posZ){
     Length_ = 1.0f;
 }
 
-bool Wall::CollisionDetection(){
 
+Vec2Param Wall::getGlobalBounds(){
+    return Vec2Param(posX,posZ, Width_, Length_);
 }
 
 void CreateMap(Floor floor_){
