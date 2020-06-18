@@ -17,7 +17,8 @@ Maze::Maze(int _size){
     totalCells = ((_size-1)/2) * ((_size-1)/2);
 }
 
-void Maze::generateMaze(){
+//Maze creating algorithm
+std::vector<Wall> Maze::generateMaze(){
     //CreateTable
     Cell Map[size][size];
     for(int i=0; i<size; i++) {
@@ -136,15 +137,26 @@ void Maze::generateMaze(){
     goalPos = Vec2d(randX,randY);
     Map[goalPos.y][goalPos.x].data = 4;
 
+    std::vector<Wall> wallsV;
+
     for(int i=0; i<size; i++) {
         for(int j=0; j<size; j++) {
-            std::cout << Map[i][j].data << " ";
+            std::cout << Map[j][i].data << " ";
+            if(Map[j][i].data==1){
+                wallsV.emplace_back(Wall(j,i));
+            }
         }
         std::cout << "\n";
     }
-    std::cout << startPos.x << " " << startPos.y << std::endl;
-    std::cout << goalPos.x << " " << goalPos.y << std::endl;
+   return wallsV;
+}
 
+Vec2d Maze::getGoalPos(){
+    return goalPos;
+}
+
+Vec2d Maze::getStartPos(){
+    return startPos;
 }
 
 
