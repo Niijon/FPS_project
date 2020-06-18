@@ -12,15 +12,6 @@ struct Cell{
     int data;
 };
 
-class Vec2d{
-public:
-    int x;
-    int y;
-
-    Vec2d();
-    Vec2d(int,int);
-};
-
 
 class Maze {
  private:
@@ -34,7 +25,7 @@ class Maze {
 
  public:
   Maze(int size);
-  std::vector<Wall> generateMaze();
+  std::vector<std::vector<Cell>> generateMaze();
   void convertMaze();
   Vec2d getStartPos();
   Vec2d getGoalPos();
