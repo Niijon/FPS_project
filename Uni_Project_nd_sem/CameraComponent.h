@@ -1,6 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "MazeExplorer.h"
+#include "Structures.h"
 
 
 class Camera{
@@ -11,6 +14,8 @@ private:
     float CameraSpeed;
     float Yaw;
     float Pitch;
+    float StepX;
+    float StepZ;
 
 public:
     Camera();
@@ -24,6 +29,7 @@ public:
     void UpdateCam();
     void SetCamPos(vec2d);
 
+    bool CanMove(std::vector<std::vector<Cell>>);
 };
 
 
