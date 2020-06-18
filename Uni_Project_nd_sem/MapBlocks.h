@@ -1,10 +1,11 @@
 #ifndef MAPBLOCKS_H
 #define MAPBLOCKS_H
 
+#include "Structures.h"
+
 class MapStructure{
 
 public:
-    virtual bool CollisionDetection()=0;
     virtual void Draw()=0;
 };
 
@@ -12,13 +13,13 @@ class Floor : public MapStructure{
     double Height_;
     double Width_;
     double Length_;
+    double size;
 
 
 public:
     Floor();
     Floor(double);
     void Draw() override;
-    bool CollisionDetection() override;
 };
 
 class Wall : public MapStructure{
@@ -32,7 +33,7 @@ public:
     Wall();
     Wall(float posX, float posZ);
     void Draw() override;
-    bool CollisionDetection() override;
+    Vec2Param getGlobalBounds();
 
 };
 
