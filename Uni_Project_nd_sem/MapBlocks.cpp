@@ -11,7 +11,7 @@ void Floor::Draw(){
     double half_cube_size = 1.0 / 2.0;
     glPushMatrix();
 
-    glTranslated(-(0.0 - (size/2-0.5)),-1.0, -(0.0 - (size/2-0.5)));
+    glTranslated(-(0.0 - (size/2)),-1.0, -(0.0 - (size/2)));
     glScaled(Length_,Height_,Width_);
     // bottom
     glBegin(GL_POLYGON);
@@ -83,7 +83,7 @@ void Floor::Draw(){
 void Wall::Draw(){
     double half_cube_size = 1.0 / 2.0;
     glPushMatrix();
-    glTranslatef(posX, 0.5f, posZ);
+    glTranslatef(posX+half_cube_size, 0.5f, posZ+half_cube_size);
     glScaled(Width_, Height_, Length_);
 
     // bottom
