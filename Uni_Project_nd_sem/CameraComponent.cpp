@@ -101,30 +101,13 @@ void Camera::SetCamPos(vec2d camPos){
 
 
 void Camera::CanMove(std::vector<std::vector<Cell>> cellV){
-    int Xid = (int)CameraPos.x / 1;
-    int Zid = (int)CameraPos.z / 1;
+    int tempintx = (int)(CameraPos.x+StepX) / 1;
+    int tempintz = (int)(CameraPos.z+StepZ) / 1;
 
-    if((CameraPos.x+StepX)>=(-0.11+double(Xid+1)) && (cellV[Xid+1][Zid].data == 1)){
+    if(cellV[tempintx][tempintz].data == 1){
         StepX = 0;
-        std::cout << Xid << " " << Zid << " " << CameraPos.x << " " << CameraPos.z << " RIGHT" << std::endl;
-    }
-
-    if((CameraPos.x+StepX)<=(-0.11+double(Xid)) && cellV[Xid-1][Zid].data == 1){
-        StepX = 0;
-        std::cout << Xid << " " << Zid << " " << CameraPos.x << " " << CameraPos.z << " LEFT" << std::endl;
-    }
-
-    if((CameraPos.z+StepZ)>=(-0.11+double(Zid+1)) && cellV[Xid][Zid+1].data == 1){
         StepZ = 0;
-        std::cout << Xid << " " << Zid << " " << CameraPos.x << " " << CameraPos.z << "DOWN" << std::endl;
     }
-
-    if((CameraPos.z+StepZ)<=(-0.11+double(Zid)) && cellV[Xid][Zid-1].data == 1){
-        StepZ = 0;
-        std::cout << Xid << " " << Zid << " " << CameraPos.x << " " << CameraPos.z << "UP" << std::endl;
-    }
-
-
 
 
     double size=cellV.size();
