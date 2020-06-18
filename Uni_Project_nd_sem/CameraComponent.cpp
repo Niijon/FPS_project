@@ -27,7 +27,7 @@ Camera::Camera(){
     CameraUp.x = 0.0f;
     CameraUp.y = 1.0f;
     CameraUp.z = 0.0f;
-    CameraSpeed = 0.1f;
+    CameraSpeed = 0.05f;
     Pitch = 0.0f;
     Yaw = 0.0f;
 }
@@ -37,35 +37,24 @@ void Camera::SetView(){
     glMatrixMode(GL_MODELVIEW);
 }
 void Camera::MoveForward(float Del_){
-
-    float StepZ = -(Del_* CameraSpeed * sin((Yaw+90)*TO_RADIANS));
-    float StepX = Del_* CameraSpeed * cos((Yaw+90)*TO_RADIANS);
-
-    CameraPos.z += StepZ;
-    CameraPos.x += StepX;
+    StepZ += -(Del_* CameraSpeed * sin((Yaw+90)*TO_RADIANS));
+    StepX += Del_* CameraSpeed * cos((Yaw+90)*TO_RADIANS);
 }
 
 void Camera::MoveBackwards(float Del_){
-    float StepX = Del_* CameraSpeed * cos((Yaw+270)*TO_RADIANS);
-    float StepZ = -(Del_* CameraSpeed * sin((Yaw+270)*TO_RADIANS));
-    CameraPos.x += StepX;
-    CameraPos.z += StepZ;
+    StepX += Del_* CameraSpeed * cos((Yaw+270)*TO_RADIANS);
+    StepZ += -(Del_* CameraSpeed * sin((Yaw+270)*TO_RADIANS));
 }
 
 
 void Camera::StrafeRight(float Del_){
-    //StepX
-    float StepX = Del_* CameraSpeed * cos((Yaw)*TO_RADIANS);
-    float StepZ = -(Del_* CameraSpeed * sin((Yaw)*TO_RADIANS));
-    CameraPos.x += StepX;
-    CameraPos.z += StepZ;
+    StepX += Del_* CameraSpeed * cos((Yaw)*TO_RADIANS);
+    StepZ += -(Del_* CameraSpeed * sin((Yaw)*TO_RADIANS));
 }
 
 void Camera::StrafeLeft(float Del_){
-    float StepX = Del_* CameraSpeed * cos((Yaw+180)*TO_RADIANS);
-    float StepZ = -(Del_* CameraSpeed * sin((Yaw+180)*TO_RADIANS));
-    CameraPos.x += StepX;
-    CameraPos.z += StepZ;
+    StepX += Del_* CameraSpeed * cos((Yaw+180)*TO_RADIANS);
+    StepZ += -(Del_* CameraSpeed * sin((Yaw+180)*TO_RADIANS));
 }
 
 void Camera::UpdateCam(){
@@ -98,3 +87,15 @@ void Camera::SetCamPos(vec2d camPos){
     CameraPos.x = camPos.x;
     CameraPos.z = camPos.z;
 }
+
+
+
+bool Camera::CanMove(std::vector<std::vector<Cell>> cellV){
+    int Xid = (int)CameraPos.x / 1;
+    int Zid = (int)CameraPos.z / 1;
+
+
+    CameraPos.x += StepX;
+    CameraPos.z += StepZ;
+}
+
