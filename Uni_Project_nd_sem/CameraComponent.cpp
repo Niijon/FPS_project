@@ -93,3 +93,8 @@ void Camera::RotateCam(float x, float y){
         Pitch = -60.0;
     }
 }
+
+void Camera::SetCamPos(vec2d camPos){
+    CameraPos.x = camPos.x;
+    CameraPos.z = camPos.z;
+}
