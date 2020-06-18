@@ -4,6 +4,7 @@
 #include "MapBlocks.h"
 #include "CameraComponent.h"
 #include <Maze.h>
+#include "Structures.h"
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -45,18 +46,34 @@ void SetView(int width, int height){
 
 void GameLoop(int _size){
     Maze maze = Maze(_size);
+    std::vector<std::vector<Cell>> CellsV;
     std::vector<Wall> wallsV;
-    wallsV = maze.generateMaze();
+    CellsV = maze.generateMaze();
+
+    for(int i=0; i<_size; i++) {
+        for(int j=0; j<_size; j++) {
+            std::cout << CellsV[j][i].data << " ";
+            if(CellsV[j][i].data == 1)
+                wallsV.emplace_back(Wall(j,i));
+        }
+        std::cout << std::endl;
+    }
+
+
+
     Vec2d start = maze.getStartPos();
     Vec2d end = maze.getGoalPos();
+
+//    for(auto &el:wallsV)
+//        std::cout << el.getGlobalBounds().x << " " << el.getGlobalBounds().y << std::endl;
 
     sf::Window window(sf::VideoMode(16*80, 9*80), "SFML OpenGL Template", sf::Style::Default, sf::ContextSettings(32));
     window.setVerticalSyncEnabled(true);
     Floor floor_(_size);
     Camera Cam;
     vec2d v;
-    v.x = start.x;
-    v.z = start.y;
+    v.x = start.y;
+    v.z = start.x;
     Cam.SetCamPos(v);
     sf::Vector2i CenterPoint = sf::Vector2i(window.getSize().x/2, window.getSize().y/2);
 
@@ -93,6 +110,7 @@ void GameLoop(int _size){
         sf::Event event;
         float deltaT_ = clk.getElapsedTime().asSeconds() * 90;
         clk.restart();
+
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 // end the program
@@ -105,7 +123,14 @@ void GameLoop(int _size){
                 Cam.StrafeLeft(deltaT_);
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-                Cam.StrafeRight(deltaT_);
+                bool CanMove=true;
+                for(auto &el:wallsV){
+                    if(!Cam.CanMoveRight(el.getGlobalBounds()))
+                        CanMove = false;
+                }
+                if(CanMove){
+                    Cam.StrafeRight(deltaT_);
+                }
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
                 Cam.MoveForward(deltaT_);
