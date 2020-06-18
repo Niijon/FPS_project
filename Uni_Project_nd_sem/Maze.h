@@ -3,16 +3,6 @@
 
 #include "MapBlocks.h"
 
-struct Cell{
-    bool visited;
-    bool upw;
-    bool downw;
-    bool leftw;
-    bool rightw;
-    int data;
-};
-
-
 class Maze {
  private:
   int size;
