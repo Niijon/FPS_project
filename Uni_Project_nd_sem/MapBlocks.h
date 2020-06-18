@@ -9,24 +9,28 @@ public:
 };
 
 class Floor : public MapStructure{
-    float Height_;
-    float Width_;
-    float Length_;
+    double Height_;
+    double Width_;
+    double Length_;
 
 
 public:
     Floor();
+    Floor(double);
     void Draw() override;
     bool CollisionDetection() override;
 };
 
 class Wall : public MapStructure{
-    float Height_;
-    float Width_;
-    float Length_;
+    double Height_;
+    double Width_;
+    double Length_;
+    float posX;
+    float posZ;
 
 public:
     Wall();
+    Wall(float posX, float posZ);
     void Draw() override;
     bool CollisionDetection() override;
 
