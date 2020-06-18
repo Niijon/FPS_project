@@ -5,18 +5,18 @@ CONFIG -= qt
 
 SOURCES += \
         CameraComponent.cpp \
-        Hero.cpp \
         MapBlocks.cpp \
         Maze.cpp \
         MazeExplorer.cpp \
+        Structures.cpp \
         main.cpp
 
 HEADERS += \
     CameraComponent.h \
-    Hero.h \
     MapBlocks.h \
     Maze.h \
-    MazeExplorer.h
+    MazeExplorer.h \
+    Structures.h
 
 LIBS += -L"N:/SFML-2.5.1/lib"
 
