@@ -3,13 +3,7 @@
 #include <iostream>
 #include <stack>
 #include "Maze.h"
-
-Vec2d::Vec2d(int _x, int _y){
-    x=_x;
-    y=_y;
-}
-
-Vec2d::Vec2d(){}
+#include "Structures.h"
 
 
 Maze::Maze(int _size){
@@ -18,7 +12,7 @@ Maze::Maze(int _size){
 }
 
 //Maze creating algorithm
-std::vector<Wall> Maze::generateMaze(){
+std::vector<std::vector<Cell>> Maze::generateMaze(){
     //CreateTable
     Cell Map[size][size];
     for(int i=0; i<size; i++) {
@@ -137,18 +131,14 @@ std::vector<Wall> Maze::generateMaze(){
     goalPos = Vec2d(randX,randY);
     Map[goalPos.y][goalPos.x].data = 4;
 
-    std::vector<Wall> wallsV;
+    std::vector<std::vector<Cell>> V(size);
 
     for(int i=0; i<size; i++) {
         for(int j=0; j<size; j++) {
-            std::cout << Map[j][i].data << " ";
-            if(Map[j][i].data==1){
-                wallsV.emplace_back(Wall(j,i));
-            }
+            V[j].emplace_back(Map[j][i]);
         }
-        std::cout << "\n";
     }
-   return wallsV;
+   return V;
 }
 
 Vec2d Maze::getGoalPos(){
