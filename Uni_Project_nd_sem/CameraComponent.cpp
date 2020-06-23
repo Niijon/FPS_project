@@ -15,6 +15,7 @@ Camera::Camera(vec3d CameraPos_, vec3d CameraTarget_, vec3d CameraUp_, float Cam
     CameraSpeed = CameraSpeed_;
     Pitch = CameraAngle_;
     Yaw = CameraAngle_;
+    toleranceMult = 2.0;
 }
 
 Camera::Camera(){
@@ -32,6 +33,7 @@ Camera::Camera(){
     Yaw = 0.0f;
     StepX = 0;
     StepZ = 0;
+    toleranceMult = 2.0;
 }
 
 
@@ -41,26 +43,22 @@ void Camera::SetView(){
 void Camera::MoveForward(float Del_){
     StepZ += -(Del_* CameraSpeed * sin((Yaw+90)*TO_RADIANS));
     StepX += Del_* CameraSpeed * cos((Yaw+90)*TO_RADIANS);
-    std::cout << CameraPos.x << " " << CameraPos.z << std::endl;
 }
 
 void Camera::MoveBackwards(float Del_){
     StepX += Del_* CameraSpeed * cos((Yaw+270)*TO_RADIANS);
     StepZ += -(Del_* CameraSpeed * sin((Yaw+270)*TO_RADIANS));
-    std::cout << CameraPos.x << " " << CameraPos.z << std::endl;
 }
 
 
 void Camera::StrafeRight(float Del_){
     StepX += Del_* CameraSpeed * cos((Yaw)*TO_RADIANS);
     StepZ += -(Del_* CameraSpeed * sin((Yaw)*TO_RADIANS));
-    std::cout << CameraPos.x << " " << CameraPos.z << std::endl;
 }
 
 void Camera::StrafeLeft(float Del_){
     StepX += Del_* CameraSpeed * cos((Yaw+180)*TO_RADIANS);
     StepZ += -(Del_* CameraSpeed * sin((Yaw+180)*TO_RADIANS));
-    std::cout << CameraPos.x << " " << CameraPos.z << std::endl;
 }
 
 void Camera::UpdateCam(){
@@ -98,11 +96,9 @@ void Camera::SetCamPos(vec2d camPos){
     CameraPos.z = camPos.z;
 }
 
-
-
 void Camera::CanMove(std::vector<std::vector<Cell>> cellV){
-    int tempintx = (int)(CameraPos.x+StepX) / 1;
-    int tempintz = (int)(CameraPos.z+StepZ) / 1;
+    int tempintx = (int)(CameraPos.x+StepX*toleranceMult);
+    int tempintz = (int)(CameraPos.z+StepZ*toleranceMult);
 
     if(cellV[tempintx][tempintz].data == 1){
         StepX = 0;
@@ -129,6 +125,10 @@ void Camera::CanMove(std::vector<std::vector<Cell>> cellV){
 
     else if(CameraPos.z >=size-1){
         CameraPos.z = size-0.05;
+    }
+
+    if(cellV[(int)CameraPos.x][(int)CameraPos.z].data == 4){
+        std::cout << "Congratulations" << std::endl;
     }
 }
 
