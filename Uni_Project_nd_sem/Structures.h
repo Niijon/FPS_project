@@ -42,6 +42,9 @@ struct Cell{
     int data;
 };
 
+struct ACell{
+
+};
 
 
 #endif // HERO_H
