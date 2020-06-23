@@ -5,6 +5,7 @@ CONFIG -= qt
 
 SOURCES += \
         CameraComponent.cpp \
+        ChasingCube.cpp \
         MapBlocks.cpp \
         Maze.cpp \
         MazeExplorer.cpp \
@@ -13,6 +14,7 @@ SOURCES += \
 
 HEADERS += \
     CameraComponent.h \
+    ChasingCube.h \
     MapBlocks.h \
     Maze.h \
     MazeExplorer.h \
