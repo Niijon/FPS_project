@@ -16,6 +16,7 @@ private:
     float Pitch;
     float StepX;
     float StepZ;
+    float toleranceMult;
 
 public:
     Camera();
