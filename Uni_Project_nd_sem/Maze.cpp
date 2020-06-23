@@ -6,7 +6,7 @@
 #include "Structures.h"
 
 
-Maze::Maze(int _size){
+Maze::Maze(const int &_size){
     size = _size;
     totalCells = ((_size-1)/2) * ((_size-1)/2);
 }
@@ -138,6 +138,8 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
             V[j].emplace_back(Map[j][i]);
         }
     }
+
+    CellsVector = V;
    return V;
 }
 
@@ -149,4 +151,14 @@ Vec2d Maze::getStartPos(){
     return startPos;
 }
 
+
+ChasingCube Maze::SpawnChasingCube(){
+    srand((unsigned)time(NULL));
+    int Xrand = std::rand()%(size-2) + 1;
+    int Zrand = std::rand()%(size-2) + 1;
+
+    if(CellsVector[Zrand][Xrand].data==0){
+        ChasingCube(Xrand,Zrand);
+    }
+}
 
