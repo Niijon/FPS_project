@@ -30,6 +30,8 @@ public:
     void UpdateCam();
     void SetCamPos(vec2d);
 
+    Vec2d getPos();
+
     void CanMove(std::vector<std::vector<Cell>>);
 };
 
