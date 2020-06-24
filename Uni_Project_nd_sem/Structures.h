@@ -1,6 +1,6 @@
 #ifndef HERO_H
 #define HERO_H
-
+#include <iostream>
 struct vec3d{
     float x;
     float y;
@@ -40,11 +40,22 @@ struct Cell{
     bool leftw;
     bool rightw;
     int data;
+    int posX;
+    int posZ;
 };
+
+typedef std::pair<int, int> Pair;
+
+typedef std::pair<double,std::pair<int,int>> pPair;
 
 struct ACell{
+    int parentX, parentZ;
 
+    double f,g,h;
 };
 
+//struct ANode{
+//    Vec2d
+//};
 
 #endif // HERO_H
