@@ -4,7 +4,6 @@
 #include <GL/glu.h>
 
 #include "ChasingCube.h"
-#include "Structures.h"
 
 
 ChasingCube::ChasingCube(double X, double Z){
@@ -13,6 +12,8 @@ ChasingCube::ChasingCube(double X, double Z){
     Width_ = 1.0;
     Height_ = 1.0;
     Length_ = 1.0;
+    if(posX<1)
+        IsViable = false;
 
     Speed = 5.0;
 }
@@ -21,11 +22,12 @@ ChasingCube::ChasingCube(double X, double Z){
 void ChasingCube::Draw(){
     double half_cube_size = 0.5 / 2.0;
     glPushMatrix();
-    glTranslatef(posX+0.5f, 0.5f, posZ+0.5f);
+    glTranslatef(posX+0.5f, 0.0f, posZ+0.5f);
     glScaled(Width_, Height_, Length_);
 
     // bottom
-    glBegin(GL_POLYGON);
+    glColor3d(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
     {
         glVertex3d(-half_cube_size, half_cube_size, -half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, -half_cube_size);
@@ -35,8 +37,8 @@ void ChasingCube::Draw(){
     glEnd();
 
     // top
-    glColor3d(1.0, 0.0, 1.0);
-    glBegin(GL_POLYGON);
+    glColor3d(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
     {
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
@@ -46,8 +48,8 @@ void ChasingCube::Draw(){
     glEnd();
 
     // left
-    glColor3d(1.0, 0.0, 1.0);
-    glBegin(GL_POLYGON);
+    glColor3d(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
     {
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
@@ -57,8 +59,8 @@ void ChasingCube::Draw(){
     glEnd();
 
     // right
-    glColor3d(1.0, 0.0, 1.0);
-    glBegin(GL_POLYGON);
+    glColor3d(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
     {
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
@@ -69,7 +71,7 @@ void ChasingCube::Draw(){
 
     // front
     glColor3d(1.0, 0.0, 1.0);
-    glBegin(GL_POLYGON);
+    glBegin(GL_QUADS);
     {
         glVertex3d(-half_cube_size, -half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, -half_cube_size, half_cube_size);
@@ -79,8 +81,8 @@ void ChasingCube::Draw(){
     glEnd();
 
     // back
-    glColor3d(1.0, 0.0, 1.0);
-    glBegin(GL_POLYGON);
+    glColor3d(0.0, 0.0, 1.0);
+    glBegin(GL_QUADS);
     {
         glVertex3d(-half_cube_size, half_cube_size, half_cube_size);
         glVertex3d(half_cube_size, half_cube_size, half_cube_size);
@@ -94,4 +96,12 @@ void ChasingCube::Draw(){
 void ChasingCube::Move(float OffSetX, float OffSetZ){
     posX+=OffSetX;
     posZ+=OffSetZ;
+}
+
+bool ChasingCube::getViability(){
+    return IsViable;
+}
+
+Vec2d ChasingCube::getPosition(){
+    return Vec2d((int)posX,(int)posZ);
 }
