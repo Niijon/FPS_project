@@ -48,6 +48,7 @@ void GameLoop(int _size){
     Maze maze = Maze(_size);
     std::vector<std::vector<Cell>> CellsV;
     std::vector<Wall> wallsV;
+    std::vector<ChasingCube> chaserV;
     CellsV = maze.generateMaze();
 
     for(int i=0; i<_size; i++) {
@@ -101,6 +102,7 @@ void GameLoop(int _size){
 
     sf::Vector2i PreviousMousePos = Mouse.getPosition(window);
 
+    double timePassed=0;
 
     sf::Clock clk;
 
@@ -118,17 +120,18 @@ void GameLoop(int _size){
                 // adjust the viewport when the window is resized
                 SetView(event.size.width, event.size.height);
             }
+
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-                Cam.StrafeLeft(deltaT_);
+                Cam.StrafeLeft(deltaT_);       
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-                Cam.StrafeRight(deltaT_);
+                Cam.StrafeRight(deltaT_);     
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-                Cam.MoveForward(deltaT_);
+                Cam.MoveForward(deltaT_);           
             }
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-                Cam.MoveBackwards(deltaT_);
+                Cam.MoveBackwards(deltaT_);     
             }
 
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)){
@@ -147,8 +150,20 @@ void GameLoop(int _size){
 
         }
 
+        timePassed += deltaT_;
+        if(timePassed >= 150.0){
+            ChasingCube chaser = maze.SpawnChasingCube();
+            if(chaser.getViability())
+                chaserV.emplace_back(chaser);
+            timePassed=0;
+        }
+
+
+
+
         Cam.CanMove(CellsV);
         Cam.UpdateCam();
+        maze.setPos(Cam.getPos());
         // clear the buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glColorMaterial (GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE) ;
@@ -165,6 +180,12 @@ void GameLoop(int _size){
         floor_.Draw();
         for(auto &el:wallsV){
             el.Draw();
+        }
+
+        if(!chaserV.empty()){
+            for(auto &el:chaserV){
+                el.Draw();
+            }
         }
 
         glPopMatrix();
