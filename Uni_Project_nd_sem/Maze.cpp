@@ -1,14 +1,17 @@
 #include <ctime>
 #include <cstdlib>
 #include <iostream>
+#include <queue>
 #include <stack>
 #include "Maze.h"
 #include "Structures.h"
 
+typedef std::pair<double,std::pair<int,int>> pPair;
 
 Maze::Maze(const int &_size){
     size = _size;
     totalCells = ((_size-1)/2) * ((_size-1)/2);
+    ChasersTotal = 0;
 }
 
 //Maze creating algorithm
@@ -23,6 +26,8 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
             Map[i][j].downw = true;
             Map[i][j].leftw = true;
             Map[i][j].rightw = true;
+            Map[i][j].posX = i;
+            Map[i][j].posZ = j;
         }
     }
     for(int i=1; i<size-1; i++) {
@@ -136,6 +141,8 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
     for(int i=0; i<size; i++) {
         for(int j=0; j<size; j++) {
             V[j].emplace_back(Map[j][i]);
+            if(Map[j][i].data==0)
+                MovingSpaceV.emplace_back(Map[j][i]);
         }
     }
 
@@ -151,14 +158,31 @@ Vec2d Maze::getStartPos(){
     return startPos;
 }
 
+void Maze::setPos(Vec2d _pos){
+    Pos=_pos;
+
+}
+
 
 ChasingCube Maze::SpawnChasingCube(){
     srand((unsigned)time(NULL));
-    int Xrand = std::rand()%(size-2) + 1;
-    int Zrand = std::rand()%(size-2) + 1;
-
-    if(CellsVector[Zrand][Xrand].data==0){
-        ChasingCube(Xrand,Zrand);
+    if(ChasersTotal>9){
+        return ChasingCube(0,0);
     }
+    int randId = std::rand()%(MovingSpaceV.size()-2);
+    if(MovingSpaceV[randId].posX != Pos.x && MovingSpaceV[randId].posZ != Pos.y){
+        ChasingCube chase = ChasingCube(MovingSpaceV[randId].posX,MovingSpaceV[randId].posZ);
+        ChasersTotal++;
+        return chase;
+    } else{
+        ChasingCube chase = ChasingCube(MovingSpaceV[randId+1].posX,MovingSpaceV[randId+1].posZ);
+        ChasersTotal++;
+        return chase;
+    }
+
+}
+
+void Maze::AStar(double &, std::vector<ChasingCube> &){
+
 }
 
