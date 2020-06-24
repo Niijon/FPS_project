@@ -33,7 +33,7 @@ Camera::Camera(){
     Yaw = 0.0f;
     StepX = 0;
     StepZ = 0;
-    toleranceMult = 2.0;
+    toleranceMult = 1.5;
 }
 
 
@@ -94,6 +94,10 @@ void Camera::RotateCam(float x, float y){
 void Camera::SetCamPos(vec2d camPos){
     CameraPos.x = camPos.x;
     CameraPos.z = camPos.z;
+}
+
+Vec2d Camera::getPos(){
+    return Vec2d((int)CameraPos.x,(int)CameraPos.z);
 }
 
 void Camera::CanMove(std::vector<std::vector<Cell>> cellV){
