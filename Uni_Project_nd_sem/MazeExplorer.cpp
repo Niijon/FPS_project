@@ -102,9 +102,11 @@ void GameLoop(int _size){
 
     sf::Vector2i PreviousMousePos = Mouse.getPosition(window);
 
-    double timePassed=0;
+   // double timePassed=0;
 
     sf::Clock clk;
+    ChasingCube chaser = maze.SpawnChasingCube();
+    chaserV.emplace_back(chaser);
 
     while (running) {
         // handle events
@@ -147,23 +149,23 @@ void GameLoop(int _size){
                 else if(Mouse.getPosition(window).y == 0) {Mouse.setPosition(CenterPoint,window); PreviousMousePos = Mouse.getPosition(window);}
                 else if(Mouse.getPosition(window).x == 0) {Mouse.setPosition(CenterPoint,window); PreviousMousePos = Mouse.getPosition(window);}
             }
-
         }
 
-        timePassed += deltaT_;
-        if(timePassed >= 150.0){
-            ChasingCube chaser = maze.SpawnChasingCube();
-            if(chaser.getViability())
-                chaserV.emplace_back(chaser);
-            timePassed=0;
+        if(chaserV[0].getPosition().x == Cam.getPos().x && chaserV[0].getPosition().y == Cam.getPos().y){
+            running = false;
+            std::cout << "GEJM OVER" << std::endl;
+            chaserV.erase(chaserV.begin());
         }
 
-
-
+        if(end.x == Cam.getPos().y && end.y == Cam.getPos().x){
+            running = false;
+            std::cout << "GRATULACJE" << std::endl;
+        }
 
         Cam.CanMove(CellsV);
         Cam.UpdateCam();
         maze.setPos(Cam.getPos());
+        maze.AStar(chaserV);
         // clear the buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glColorMaterial (GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE) ;
@@ -172,10 +174,6 @@ void GameLoop(int _size){
         // draw stuff
         glPushMatrix();
 
-        // TODO
-        // test functions below (glTranslated, glRotated, glColor3d)
-        // what happens when you change their arguments?
-        // does their order change the result?
 
         floor_.Draw();
         for(auto &el:wallsV){
