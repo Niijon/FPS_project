@@ -21,8 +21,6 @@ public:
     Vec2d getPosition();
 
     void Move(float,float);
-
-    void AStar(double&,Vec2d&);
 };
 
 
