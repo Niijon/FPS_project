@@ -44,10 +44,6 @@ struct Cell{
     int posZ;
 };
 
-typedef std::pair<int, int> Pair;
-
-typedef std::pair<double,std::pair<int,int>> pPair;
-
 struct ACell{
     int parentX, parentZ;
 
