@@ -34,6 +34,6 @@ class Maze {
   Vec2d getGoalPos();
 
 
-  void AStar(double&,std::vector<ChasingCube>&);
+  void AStar(std::vector<ChasingCube>&);
   ChasingCube SpawnChasingCube();
 };
