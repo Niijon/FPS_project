@@ -56,15 +56,15 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
 
     while(visitedCells<totalCells){
         if((!Map[randY-2][randX].visited && Map[randY][randX].upw && Map[randY-2][randX].downw) ||
-           (!Map[randY+2][randX].visited && Map[randY][randX].downw && Map[randY+2][randX].upw) ||
-           (!Map[randY][randX-2].visited && Map[randY][randX].leftw && Map[randY][randX-2].rightw) ||
-           (!Map[randY][randX+2].visited && Map[randY][randX].rightw && Map[randY][randX+2].leftw))
+                (!Map[randY+2][randX].visited && Map[randY][randX].downw && Map[randY+2][randX].upw) ||
+                (!Map[randY][randX-2].visited && Map[randY][randX].leftw && Map[randY][randX-2].rightw) ||
+                (!Map[randY][randX+2].visited && Map[randY][randX].rightw && Map[randY][randX+2].leftw))
         {
             rand = (std::rand() % 4) + 1;
             //Try upwards
             if(rand == 1 && randY>1){
                 if(!Map[randY-2][randX].visited){
-//                    std::cout << randX << std::endl;
+                    //                    std::cout << randX << std::endl;
                     Map[randY-1][randX].data = 0;
                     Map[randY-1][randX].visited = true;
                     Map[randY][randX].upw = false;
@@ -80,7 +80,7 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
                 }
             } else if(rand==2 && randY<size-2){ //Downwards
                 if(!Map[randY+2][randX].visited){
-//                    std::cout << randX << std::endl;
+                    //                    std::cout << randX << std::endl;
                     Map[randY+1][randX].data = 0;
                     Map[randY+1][randX].visited = true;
                     Map[randY][randX].downw = false;
@@ -96,7 +96,7 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
                 }
             } else if(rand == 3 && randX >1){ //Left
                 if(!Map[randY][randX-2].visited){
-//                    std::cout << randX << std::endl;
+                    //                    std::cout << randX << std::endl;
                     Map[randY][randX-1].data = 0;
                     Map[randY][randX-1].visited = true;
                     Map[randY][randX].leftw = false;
@@ -112,7 +112,7 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
                 }
             } else if(rand == 4 && randX<size-2){
                 if(!Map[randY][randX+2].visited){
-//                    std::cout << randX << std::endl;
+                    //                    std::cout << randX << std::endl;
                     Map[randY][randX+1].data = 0;
                     Map[randY][randX+1].visited = true;
                     Map[randY][randX].rightw = false;
@@ -148,7 +148,7 @@ std::vector<std::vector<Cell>> Maze::generateMaze(){
     }
 
     CellsVector = V;
-   return V;
+    return V;
 }
 
 Vec2d Maze::getGoalPos(){
@@ -169,7 +169,7 @@ void Maze::setPos(Vec2d _pos){
 //}
 
 bool Maze::ChasedDown(Vec2d chaserPos){
-    return (chaserPos.x == Pos.x && chaserPos.y == Pos.y);
+    return (chaserPos.x == Pos.y && chaserPos.y == Pos.x);
 }
 
 double Maze::calcH(int row, int col){
@@ -185,142 +185,177 @@ ChasingCube Maze::SpawnChasingCube(){
     int randId = std::rand()%(MovingSpaceV.size()-2);
     if(MovingSpaceV[randId].posX != Pos.x && MovingSpaceV[randId].posZ != Pos.y){
         ChasingCube chase = ChasingCube(MovingSpaceV[randId].posX,MovingSpaceV[randId].posZ);
+        std::cout << MovingSpaceV[randId].posX << " " << MovingSpaceV[randId].posZ << std::endl;
         ChasersTotal++;
         return chase;
     } else{
         ChasingCube chase = ChasingCube(MovingSpaceV[randId+1].posX,MovingSpaceV[randId+1].posZ);
+        std::cout << MovingSpaceV[randId+1].posX << " " << MovingSpaceV[randId+1].posZ << std::endl;
         ChasersTotal++;
         return chase;
     }
 
 }
 
-void Maze::AStar(double &delT, std::vector<ChasingCube> &chasers){
-    for(auto &chaser:chasers){
-        if(ChasedDown(chaser.getPosition())){}
+void Maze::AStar(std::vector<ChasingCube> &chasers){
+    if(!chasers.empty())
+        for(auto &chaser:chasers){
 
+            bool closedList[size][size];
+            ACell cells[size][size];
+            double max = size + size;
 
-        bool closedList[size][size];
-        ACell cells[size][size];
-        double max = size + size;
+            int i;
+            int j;
 
-        int i;
-        int j;
-        for(i=0;i<size;i++){
-            for(j=0;j<size;j++){
-                cells[i][j].f = max;
-                cells[i][j].g = max;
-                cells[i][j].h = max;
-                cells[i][j].parentX = -1;
-                cells[i][j].parentZ = -1;
-                closedList[i][j]=false;
+            for(i=0;i<size;i++){
+                for(j=0;j<size;j++){
+                    cells[i][j].f = max;
+                    cells[i][j].g = max;
+                    cells[i][j].h = max;
+                    cells[i][j].parentX = -1;
+                    cells[i][j].parentZ = -1;
+                    closedList[i][j]=false;
+                }
             }
+
+
+            i = chaser.getPosition().y;
+            j = chaser.getPosition().x;
+
+            cells[i][j].f = 0.0;
+            cells[i][j].g = 0.0;
+            cells[i][j].h = 0.0;
+            cells[i][j].parentX = i;
+            cells[i][j].parentZ = j;
+
+            std::set<std::pair<double,std::pair<int,int>>> openList;
+
+            openList.insert(std::make_pair(0.0,std::make_pair(i,j)));
+
+            bool found = false;
+            if(!ChasedDown(chaser.getPosition()))
+                while(!openList.empty()){
+                    std::pair<double,std::pair<int,int>> p = *openList.begin();
+
+                    openList.erase(openList.begin());
+
+                    i = p.second.first;
+                    j = p.second.second;
+
+                    closedList[i][j] = true;
+
+                    double gNew,hNew,fNew;
+                    //UP
+                    if(ChasedDown(Vec2d(i-1,j))){
+                        cells[i-1][j].parentX = i;
+                        cells[i-1][j].parentZ = j;
+                        found = true;
+                        break;
+                    } else if(closedList[i-1][j] == false && CellsVector[j][i-1].data == 0){
+                        gNew = cells[i][j].g + 1.0;
+                        hNew = calcH(i-1,j);
+                        fNew = gNew + hNew;
+
+                        if (cells[i-1][j].f == max || cells[i-1][j].f > fNew){
+                            openList.insert(std::make_pair(fNew, std::make_pair(i-1, j)));
+
+                            cells[i-1][j].f = fNew;
+                            cells[i-1][j].g = gNew;
+                            cells[i-1][j].h = hNew;
+                            cells[i-1][j].parentX = i;
+                            cells[i-1][j].parentZ = j;
+                        }
+                    }
+
+                    //DOWN
+
+                    if(ChasedDown(Vec2d(i+1,j))){
+                        cells[i+1][j].parentX = i;
+                        cells[i+1][j].parentZ = j;
+                        found = true;
+                        break;
+                    } else if(closedList[i+1][j] == false && CellsVector[j][i+1].data == 0){
+                        gNew = cells[i][j].g + 1.0;
+                        hNew = calcH(i+1,j);
+                        fNew = gNew + hNew;
+
+                        if (cells[i+1][j].f == max || cells[i+1][j].f > fNew){
+                            openList.insert(std::make_pair(fNew, std::make_pair(i+1, j)));
+
+                            cells[i+1][j].f = fNew;
+                            cells[i+1][j].g = gNew;
+                            cells[i+1][j].h = hNew;
+                            cells[i+1][j].parentX = i;
+                            cells[i+1][j].parentZ = j;
+                        }
+                    }
+
+                    //RIGHT
+
+                    if(ChasedDown(Vec2d(i,j+1))){
+                        cells[i][j+1].parentX = i;
+                        cells[i][j+1].parentZ = j;
+                        found = true;
+                        break;
+                    } else if(closedList[i][j+1] == false && CellsVector[j+1][i].data == 0){
+                        gNew = cells[i][j].g + 1.0;
+                        hNew = calcH(i,j+1);
+                        fNew = gNew + hNew;
+
+                        if(cells[i][j+1].f == max || cells[i][j+1].f > fNew){
+                            openList.insert(std::make_pair(fNew, std::make_pair (i, j+1)));
+
+                            cells[i][j+1].f = fNew;
+                            cells[i][j+1].g = gNew;
+                            cells[i][j+1].h = hNew;
+                            cells[i][j+1].parentX = i;
+                            cells[i][j+1].parentZ = j;
+                        }
+
+                    }
+
+                    if(ChasedDown(Vec2d(i,j-1))){
+                        cells[i][j-1].parentX = i;
+                        cells[i][j-1].parentZ = j;
+                        found = true;
+                        break;
+                    } else if(closedList[i][j-1] == false && CellsVector[j-1][i].data == 0){
+                        gNew = cells[i][j].g + 1.0;
+                        hNew = calcH(i,j-1);
+                        fNew = gNew + hNew;
+
+                        if(cells[i][j-1].f == max || cells[i][j-1].f > fNew){
+                            openList.insert(std::make_pair(fNew, std::make_pair (i, j-1)));
+
+                            cells[i][j-1].f = fNew;
+                            cells[i][j-1].g = gNew;
+                            cells[i][j-1].h = hNew;
+                            cells[i][j-1].parentX = i;
+                            cells[i][j-1].parentZ = j;
+                        }
+                    }
+
+                }
+
+            if(found){
+                int X = Pos.y;
+                int Z = Pos.x;
+
+                std::stack<Vec2d> path;
+                while(!(cells[X][Z].parentX == X && cells[X][Z].parentZ == Z)){
+                    path.push(Vec2d(X,Z));
+                    int tempX = cells[X][Z].parentX;
+                    int tempZ = cells[X][Z].parentZ;
+//                    std::cout << tempX << " " << tempZ << std::endl;
+                    X = tempX;
+                    Z = tempZ;
+                }
+                Vec2d last = path.top();
+                chaser.Move(Z-last.y,X-last.x);
+//                std::cout << last.y-Z << " " << last.x-X << std::endl;
+            }
+
         }
-
-        i = chaser.getPosition().y;
-        j = chaser.getPosition().x;
-
-        cells[i][j].f = 0.0;
-        cells[i][j].g = 0.0;
-        cells[i][j].h = 0.0;
-        cells[i][j].parentX = i;
-        cells[i][j].parentZ = j;
-
-        std::set<std::pair<double,std::pair<int,int>>> openList;
-
-        openList.insert(std::make_pair(0.0,std::make_pair(i,j)));
-
-        bool found = false;
-
-        while(!openList.empty()){
-            std::pair<double,std::pair<int,int>> p = *openList.begin();
-
-            openList.erase(openList.begin());
-
-            i = p.second.first;
-            j = p.second.second;
-
-            closedList[i][j] = true;
-
-            double gNew,hNew,fNew;
-            //UP
-            if(ChasedDown(Vec2d(i-1,j))){
-                cells[i-1][j].parentX = i;
-                cells[i-1][j].parentZ = j;
-                trace();//tu zapisz do vectora
-                found = true;
-            } else if(closedList[i-1][j] == false && CellsVector[i-1][j].data == 0){
-                gNew = cells[i][j].g + 1.0;
-                hNew = calcH(i-1,j);
-                fNew = gNew + hNew;
-
-                if (cells[i-1][j].f == max ||
-                        cells[i-1][j].f > fNew)
-                {
-                    openList.insert( std::make_pair(fNew, std::make_pair(i-1, j)));
-
-                    cells[i-1][j].f = fNew;
-                    cells[i-1][j].g = gNew;
-                    cells[i-1][j].h = hNew;
-                    cells[i-1][j].parentX = i;
-                    cells[i-1][j].parentZ = j;
-                }
-            }
-
-            //DOWN
-
-            if(ChasedDown(Vec2d(i+1,j))){
-                cells[i+1][j].parentX = i;
-                cells[i+1][j].parentZ = j;
-                trace();//tu zapisz do vectora
-                found = true;
-            } else if(closedList[i+1][j] == false && CellsVector[i+1][j].data == 0){
-                gNew = cells[i][j].g + 1.0;
-                hNew = calcH(i+1,j);
-                fNew = gNew + hNew;
-
-                if (cells[i+1][j].f == max || cells[i+1][j].f > fNew)
-                {
-                    openList.insert( std::make_pair(fNew, std::make_pair(i+1, j)));
-
-                    cells[i+1][j].f = fNew;
-                    cells[i+1][j].g = gNew;
-                    cells[i+1][j].h = hNew;
-                    cells[i+1][j].parentX = i;
-                    cells[i+1][j].parentZ = j;
-                }
-            }
-
-            //RIGHT
-
-            if(ChasedDown(Vec2d(i,j+1))){
-                cells[i][j+1].parentX = i;
-                cells[i][j+1].parentZ = j;
-                trace();//tu zapisz do vectora
-                found = true;
-            } else if(closedList[i][j+1] == false && CellsVector[i][j+1].data == 0){
-                gNew = cells[i][j].g + 1.0;
-                hNew = calcH(i,j+1);
-                fNew = gNew + hNew;
-
-                if(cells[i][j+1].f == max || CellsVector[i][j+1].data ==0){
-                    openList.insert( std::make_pair(fNew, std::make_pair (i, j+1)));
-
-                    // Update the details of this cell
-                    cells[i][j+1].f = fNew;
-                    cells[i][j+1].g = gNew;
-                    cells[i][j+1].h = hNew;
-                    cells[i][j+1].parentX = i;
-                    cells[i][j+1].parentZ = j;
-                }
-
-            }
-
-
-
-
-        }
-
-    }
 }
 
