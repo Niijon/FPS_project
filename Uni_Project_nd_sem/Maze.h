@@ -13,13 +13,16 @@ class Maze {
   int visitedCells;
   int ChasersTotal;
   std::vector<std::vector<Cell>> CellsVector;
-  std::vector<std::vector<ACell>> ACellVector;
   std::vector<Cell> MovingSpaceV;
   Vec2d startPos;
   Vec2d goalPos;
   Vec2d Pos;
 
   bool ReachedGoal(float,float);
+  bool ChasedDown(Vec2d);
+
+  Vec2d trace();
+  double calcH(int row, int col);
 
 
  public:
@@ -29,6 +32,7 @@ class Maze {
   Vec2d getStartPos();
   void setPos(Vec2d);
   Vec2d getGoalPos();
+
 
   void AStar(double&,std::vector<ChasingCube>&);
   ChasingCube SpawnChasingCube();
