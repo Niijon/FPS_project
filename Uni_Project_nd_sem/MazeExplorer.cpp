@@ -153,7 +153,7 @@ void GameLoop(int _size){
 
         if(chaserV[0].getPosition().x == Cam.getPos().x && chaserV[0].getPosition().y == Cam.getPos().y){
             running = false;
-            std::cout << "GEJM OVER" << std::endl;
+            std::cout << "PRZEGRANA" << std::endl;
             chaserV.erase(chaserV.begin());
         }
 
