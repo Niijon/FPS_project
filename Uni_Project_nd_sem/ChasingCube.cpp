@@ -22,7 +22,7 @@ ChasingCube::ChasingCube(double X, double Z){
 void ChasingCube::Draw(){
     double half_cube_size = 0.5 / 2.0;
     glPushMatrix();
-    glTranslatef(posX-0.5, 0.0f, posZ-0.5);
+    glTranslatef(posX, 0.0f, posZ);
     glScaled(Width_, Height_, Length_);
 
     // bottom
