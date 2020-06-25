@@ -151,7 +151,7 @@ void GameLoop(int _size){
             }
         }
 
-        if(chaserV[0].getPosition().x == Cam.getPos().x && chaserV[0].getPosition().y == Cam.getPos().y){
+        if((chaserV[0].getPosition().x == Cam.getPos().x && chaserV[0].getPosition().y == Cam.getPos().y) || (chaserV[0].getPosition().x-50 == Cam.getPos().x && chaserV[0].getPosition().y-50 == Cam.getPos().y)){
             running = false;
             std::cout << "PRZEGRANA" << std::endl;
             chaserV.erase(chaserV.begin());
