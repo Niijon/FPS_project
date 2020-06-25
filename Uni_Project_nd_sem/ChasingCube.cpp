@@ -15,14 +15,14 @@ ChasingCube::ChasingCube(double X, double Z){
     if(posX<1)
         IsViable = false;
 
-    Speed = 5.0;
+    Speed = 0.01;
 }
 
 
 void ChasingCube::Draw(){
     double half_cube_size = 0.5 / 2.0;
     glPushMatrix();
-    glTranslatef(posX+0.5f, 0.0f, posZ+0.5f);
+    glTranslatef(posX+0.5, 0.0f, posZ+0.5);
     glScaled(Width_, Height_, Length_);
 
     // bottom
@@ -94,8 +94,8 @@ void ChasingCube::Draw(){
 }
 
 void ChasingCube::Move(float OffSetX, float OffSetZ){
-    posX+=OffSetX;
-    posZ+=OffSetZ;
+    posX-=OffSetX*Speed;
+    posZ-=OffSetZ*Speed;
 }
 
 bool ChasingCube::getViability(){
